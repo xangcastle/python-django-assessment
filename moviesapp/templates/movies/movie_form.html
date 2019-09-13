@@ -6,7 +6,7 @@
 {% block css %}
     {{ block.super }}
     <style type="text/css">
-        .errorlist li{
+        .errorlist li {
             list-style: none;
             color: red;
             font-size: .8em;
@@ -16,14 +16,69 @@
 
 {% block javascript %}
     {{ block.super }}
+    <script
+            src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+            integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
+            crossorigin="anonymous"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $.each($('form input'), function (i, o) {
-                $(o).addClass('form-control')
+                $(o).addClass('form-control');
             });
-            $('textarea').addClass('form-control')
+            $('textarea').addClass('form-control');
+
+            var autocomplete = function () {
+                var query = $(this).val();
+
+                $(this).autocomplete({
+                    minLength: 2,
+                    source: "https://api.themoviedb.org/3/search/movie?api_key=026f80f352a17f837d15fb3eff4270cd&language=en-MX&query=" + query,
+                    select: function (i, o) {
+                        var data = o.item;
+                        console.log(o);
+                        data['value'] = data.title;
+                        $('#id_plot').val(data.overview);
+                        $('#id_released_on').val(data.release_date);
+                        $('#id_year').val(data.release_date.split('-')[0]);
+                        //$('#id_poster_path').val(data.poster_path);
+                        console.log(data.video);
+                        if (data.video) {
+                            $('#id_video').val(2);
+                        } else {
+                            $('#id_video').val(3);
+                        }
+                        if (data.adult) {
+                            $('#id_adult').val(2);
+                        } else {
+                            $('#id_adult').val(3);
+                        }
+
+                        $.each(data.genre_ids, function (i, o) {
+                            $("#id_genres option[value='" + o + "']").prop("selected", true);
+                        });
+
+                    }
+                });
+
+                $(this).autocomplete("instance")._renderMenu = function (ul, items) {
+                    var that = this;
+                    $.each(items[3], function (index, item) {
+                        that._renderItemData(ul, item);
+                    });
+                    $(ul).find("li:odd").addClass("odd");
+                };
+
+                $(this).autocomplete("instance")._renderItem = function (ul, item) {
+                    return $("<li>").css('list-style', 'none')
+                        .append("<div style='background-color: #999; border: 1px solid #ccc; padding: 5px;'> <p style='font-weight: 900; font-size: 14pt'>" + item.title + " - " + item.release_date + "</p> <div><table><tr> <td><img height=100 src='https://image.tmdb.org/t/p/w500/" + item.poster_path + "' /></td> <td style='max-width: 600px; padding: 10px'><p>" + item.overview + "</p></td> </tr></table></div></div>")
+                        .appendTo(ul);
+                };
+
+            };
+            $('#id_title').on('keyup', autocomplete);
         })
     </script>
+
 {% endblock %}
 
 {% block content %}
