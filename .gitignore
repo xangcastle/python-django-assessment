@@ -5,5 +5,4 @@ build/
 dist/
 movies_rating_app.egg-info/
 moviesapp.db
-moviesapp/movies/models.py
 venv/
