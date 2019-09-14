@@ -70,7 +70,7 @@
 
                 $(this).autocomplete("instance")._renderItem = function (ul, item) {
                     return $("<li>").css('list-style', 'none')
-                        .append("<div style='background-color: #999; border: 1px solid #ccc; padding: 5px;'> <p style='font-weight: 900; font-size: 14pt'>" + item.title + " - " + item.release_date + "</p> <div><table><tr> <td><img height=100 src='https://image.tmdb.org/t/p/w500/" + item.poster_path + "' /></td> <td style='max-width: 600px; padding: 10px'><p>" + item.overview + "</p></td> </tr></table></div></div>")
+                        .append("<div style='background-color: #FFF; border: 1px solid #ccc; padding: 5px;'> <p style='font-weight: 900; font-size: 14pt'>" + item.title + " - " + item.release_date + "</p> <div><table><tr> <td><img height=100 src='https://image.tmdb.org/t/p/w500/" + item.poster_path + "' /></td> <td style='max-width: 600px; padding: 10px'><p>" + item.overview + "</p></td> </tr></table></div></div>")
                         .appendTo(ul);
                 };
 
