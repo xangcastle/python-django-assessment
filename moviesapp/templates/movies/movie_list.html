@@ -8,7 +8,6 @@
         <table class="table table-striped">
         <thead>
         <tr>
-            <th scope="col"><b>ID</b></th>
             <th scope="col"><b>Title</b></th>
             <th scope="col"><b>Director</b></th>
             <th scope="col"><b>Rated</b></th>
@@ -19,9 +18,6 @@
         <tbody>
         {% for movie in movie_list %}
             <tr>
-                <td>
-                    <a href="{{ movie.get_absolute_url }}">{{ movie.pk }}</a>
-                </td>
                 <td>
                     <a href="{{ movie.get_absolute_url }}">{{ movie.title }}</a>
                 </td>
